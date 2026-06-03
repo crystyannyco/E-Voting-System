@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSPC E-Vote</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen relative">
+        <div id="sidebar" class="no-print w-0 md:w-64 bg-white border-r border-gray-200 flex flex-col absolute md:relative h-full z-10 transition-all duration-300 overflow-hidden">
+            <div class="px-6 py-8 border-b border-gray-200">
+                <a href="#dashboard">
+                    <h1 class="text-xl font-bold text-blue-800">CSPC E-Vote</h1>
+                </a>
+            </div>
+            <div class="flex-1 overflow-y-auto py-4">
+                <nav class="px-2 space-y-1">
+                    <a href="#dashboard-summary" data-page-title="Dashboard" class="sidebar-link flex items-center space-x-3 text-blue-600 bg-blue-50 py-2 px-4 rounded-md transition duration-200">
+                        <span class="material-icons">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#election-analysis" data-page-title="Votes" class="sidebar-link flex items-center space-x-3 text-gray-500 py-2 px-4 rounded-md transition duration-200">
+                        <span class="material-icons">ballot</span>
+                        <span>Votes</span>
+                    </a>
+                    <a href="#candidate-positions" data-page-title="Students" class="sidebar-link flex items-center space-x-3 text-gray-500 py-2 px-4 rounded-md transition duration-200">
+                        <span class="material-icons">group</span>
+                        <span>Students</span>
+                    </a>
+                    <a href="#candidate-positions" data-page-title="Positions" class="sidebar-link flex items-center space-x-3 text-gray-500 py-2 px-4 rounded-md transition duration-200">
+                        <span class="material-icons">work</span>
+                        <span>Positions</span>
+                    </a>
+                    <a href="#candidate-positions" data-page-title="Partylist" class="sidebar-link flex items-center space-x-3 text-gray-500 py-2 px-4 rounded-md transition duration-200">
+                        <span class="material-icons">format_list_bulleted</span>
+                        <span>Partylist</span>
+                    </a>
+                    <a href="#candidate-positions" data-page-title="Candidates" class="sidebar-link flex items-center space-x-3 text-gray-500 py-2 px-4 rounded-md transition duration-200">
+                        <span class="material-icons">person</span>
+                        <span>Candidates</span>
+                    </a>
+                    <a href="#election-analysis" data-page-title="Election Title" class="sidebar-link flex items-center space-x-3 text-gray-500 py-2 px-4 rounded-md transition duration-200">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Election Title</span>
+                    </a>
+                    <a href="#dashboard-summary" data-page-title="Administrators" class="sidebar-link flex items-center space-x-3 text-gray-500 py-2 px-4 rounded-md transition duration-200">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Administrators</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-auto">
+            <div class="no-print">
+                <div class="bg-white px-6 py-6 border-b border-gray-200 shadow-md flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800" id="overviewText">Dashboard</h2>
+                    <div class="flex items-center no-print">
+                        <div class="relative mr-4">
+                            <button class="flex items-center focus:outline-none" id="profileDropdown">
+                                <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center border-2 border-blue-300 overflow-hidden">
+                                    <img id="profilePreview" src="VotingSystem/public/assets/profile.png" alt="Admin Profile" class="w-full h-full object-cover" />
+                                </div>
+                                <div class="ml-2 hidden md:block text-left">
+                                    <p class="text-sm font-medium text-gray-700">Admin</p>
+                                    <p class="text-xs text-gray-500">Administrator</p>
+                                </div>
+                                <svg class="w-4 h-4 ml-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+                            <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden">
+                                <a href="#dashboard" data-title="Admin Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Your Profile</a>
+                                <div class="border-t border-gray-100"></div>
+                                <a href="#dashboard" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">Sign out</a>
+                            </div>
+                        </div>
+
+                        <button id="sidebarToggle" class="md:hidden p-2 rounded-md bg-blue-50 text-blue-600">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <main id="dashboard" class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Dashboard</h3>
+
+                <div id="dashboard-summary" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <a href="#dashboard-summary" data-page-title="Voters">
+                        <div class="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Total Voters</p>
+                                <h4 class="text-2xl font-bold">1,248</h4>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#election-analysis" data-page-title="Elections">
+                        <div class="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">No. of Elections</p>
+                                <h4 class="text-2xl font-bold">6</h4>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                                    <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#candidate-positions" data-page-title="Candidates">
+                        <div class="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">No. of Candidate</p>
+                                <h4 class="text-2xl font-bold">24</h4>
+                            </div>
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons text-indigo-600">person</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#candidate-positions" data-page-title="Partylists">
+                        <div class="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">No. of Partylist</p>
+                                <h4 class="text-2xl font-bold">8</h4>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                    <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div id="election-analysis" class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Election Analysis</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <a href="#general-election" data-title="General Election 2026" data-page-title="General Election 2026">
+                            <div id="general-election" class="bg-white rounded-lg shadow-md p-6">
+                                <p class="text-xl font-semibold text-blue-800 mb-1">
+                                    General Election 2026
+                                    <span class="text-sm text-gray-600">(All Departments)</span>
+                                </p>
+                                <div class="relative pt-1 mb-4">
+                                    <div class="flex rounded-lg h-6 overflow-hidden text-white">
+                                        <div class="bg-blue-600 flex items-center justify-center text-sm font-bold" style="width: 68%">68%</div>
+                                        <div class="bg-red-600 flex items-center justify-center text-sm font-bold" style="width: 32%">32%</div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row justify-between px-4">
+                                    <div class="flex items-center mb-2 sm:mb-0">
+                                        <div class="w-4 h-4 bg-blue-600 rounded-full mr-2"></div>
+                                        <span class="text-gray-800 font-medium">ALREADY VOTED: 850 students</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-red-600 rounded-full mr-2"></div>
+                                        <span class="text-gray-800 font-medium">NOT YET VOTED: 398 students</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-gray-200">
+                                    <p class="text-sm font-medium text-gray-700 mb-2">Department Breakdown:</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                        <div class="bg-gray-50 p-2 rounded">
+                                            <p class="text-xs font-medium text-gray-600">BSIT</p>
+                                            <div class="flex justify-between text-xs"><span>Voted: 72%</span><span>(216/300)</span></div>
+                                        </div>
+                                        <div class="bg-gray-50 p-2 rounded">
+                                            <p class="text-xs font-medium text-gray-600">BSED</p>
+                                            <div class="flex justify-between text-xs"><span>Voted: 66%</span><span>(165/250)</span></div>
+                                        </div>
+                                        <div class="bg-gray-50 p-2 rounded">
+                                            <p class="text-xs font-medium text-gray-600">BSBA</p>
+                                            <div class="flex justify-between text-xs"><span>Voted: 63%</span><span>(189/300)</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#student-council-election" data-title="Student Council Election 2026" data-page-title="Student Council Election 2026">
+                            <div id="student-council-election" class="bg-white rounded-lg shadow-md p-6">
+                                <p class="text-xl font-semibold text-blue-800 mb-1">
+                                    Student Council Election 2026
+                                    <span class="text-sm text-gray-600">(College of Engineering)</span>
+                                </p>
+                                <div class="relative pt-1 mb-4">
+                                    <div class="flex rounded-lg h-6 overflow-hidden text-white">
+                                        <div class="bg-blue-600 flex items-center justify-center text-sm font-bold" style="width: 54%">54%</div>
+                                        <div class="bg-red-600 flex items-center justify-center text-sm font-bold" style="width: 46%">46%</div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row justify-between px-4">
+                                    <div class="flex items-center mb-2 sm:mb-0">
+                                        <div class="w-4 h-4 bg-blue-600 rounded-full mr-2"></div>
+                                        <span class="text-gray-800 font-medium">ALREADY VOTED: 214 students</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-red-600 rounded-full mr-2"></div>
+                                        <span class="text-gray-800 font-medium">NOT YET VOTED: 182 students</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="candidate-positions">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Candidates</h3>
+
+                    <a href="#president">
+                        <div id="president" class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4 text-center">President</h4>
+                            <div class="flex justify-center">
+                                <div class="flex flex-wrap justify-center gap-4 max-w-screen-xl">
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="Ana Cruz" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Ana Cruz</h5>
+                                        <p class="text-sm text-gray-500 text-center">Progress Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/profile.png" alt="Miguel Santos" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Miguel Santos</h5>
+                                        <p class="text-sm text-gray-500 text-center">Unity Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="Lea Ramirez" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Lea Ramirez</h5>
+                                        <p class="text-sm text-gray-500 text-center">Independent</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#vice-president">
+                        <div id="vice-president" class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4 text-center">Vice President</h4>
+                            <div class="flex justify-center">
+                                <div class="flex flex-wrap justify-center gap-4 max-w-screen-xl">
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="John Dela Cruz" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">John Dela Cruz</h5>
+                                        <p class="text-sm text-gray-500 text-center">Progress Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/profile.png" alt="Sofia Garcia" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Sofia Garcia</h5>
+                                        <p class="text-sm text-gray-500 text-center">Unity Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="Paolo Reyes" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Paolo Reyes</h5>
+                                        <p class="text-sm text-gray-500 text-center">Independent</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#secretary">
+                        <div id="secretary" class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4 text-center">Secretary</h4>
+                            <div class="flex justify-center">
+                                <div class="flex flex-wrap justify-center gap-4 max-w-screen-xl">
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="Rina Torres" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Rina Torres</h5>
+                                        <p class="text-sm text-gray-500 text-center">Progress Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/profile.png" alt="Mark Lim" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Mark Lim</h5>
+                                        <p class="text-sm text-gray-500 text-center">Unity Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="Nina Lopez" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Nina Lopez</h5>
+                                        <p class="text-sm text-gray-500 text-center">Independent</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#treasurer">
+                        <div id="treasurer" class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4 text-center">Treasurer</h4>
+                            <div class="flex justify-center">
+                                <div class="flex flex-wrap justify-center gap-4 max-w-screen-xl">
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="Ella Santos" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Ella Santos</h5>
+                                        <p class="text-sm text-gray-500 text-center">Progress Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/profile.png" alt="Kyle Flores" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Kyle Flores</h5>
+                                        <p class="text-sm text-gray-500 text-center">Unity Party</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4 flex flex-col items-center w-72">
+                                        <div class="flex justify-center mb-4 w-full h-64">
+                                            <div class="w-64 h-64 rounded overflow-hidden flex items-center justify-center bg-white">
+                                                <img src="VotingSystem/public/assets/default-profile.png" alt="Mara Bautista" class="object-contain max-w-full">
+                                            </div>
+                                        </div>
+                                        <h5 class="font-medium text-gray-800 text-center">Mara Bautista</h5>
+                                        <p class="text-sm text-gray-500 text-center">Independent</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-page-title]').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    const title = this.getAttribute('data-page-title') || this.textContent.trim();
+                    sessionStorage.setItem('pageTitle', title);
+                    const overviewText = document.getElementById('overviewText');
+                    if (overviewText) {
+                        overviewText.textContent = title;
+                    }
+                });
+            });
+
+            const storedTitle = sessionStorage.getItem('pageTitle');
+            if (storedTitle && document.getElementById('overviewText')) {
+                document.getElementById('overviewText').textContent = storedTitle;
+            }
+
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileMenu = document.getElementById('profileMenu');
+
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    if (sidebar.classList.contains('w-0')) {
+                        sidebar.classList.remove('w-0');
+                        sidebar.classList.add('w-64');
+                    } else {
+                        sidebar.classList.remove('w-64');
+                        sidebar.classList.add('w-0');
+                    }
+                });
+            }
+
+            if (profileDropdown && profileMenu) {
+                profileDropdown.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    profileMenu.classList.toggle('hidden');
+                });
+            }
+
+            document.addEventListener('click', function(event) {
+                if (profileDropdown && profileMenu && !profileDropdown.contains(event.target) && !profileMenu.contains(event.target)) {
+                    profileMenu.classList.add('hidden');
+                }
+
+                if (window.innerWidth < 768 && sidebar && sidebarToggle && !sidebar.contains(event.target) && !sidebarToggle.contains(event.target) && !sidebar.classList.contains('w-0')) {
+                    sidebar.classList.remove('w-64');
+                    sidebar.classList.add('w-0');
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (!sidebar) return;
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('w-0');
+                    sidebar.classList.add('w-64');
+                } else {
+                    sidebar.classList.remove('w-64');
+                    sidebar.classList.add('w-0');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
